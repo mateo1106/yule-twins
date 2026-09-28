@@ -1,0 +1,63 @@
+{
+  "tv_distance_k1": 0.007742565244811615,
+  "mean_k1": {
+    "empirical": 7.366225,
+    "exact": 7.38905609893065
+  },
+  "var_k1": {
+    "empirical": 47.132404249375,
+    "exact": 47.209093934213584
+  },
+  "tv_distance_k2": 0.00727636419214661,
+  "mean_k2": {
+    "empirical": 7.342,
+    "exact": 7.38905609893065
+  },
+  "var_k2": {
+    "empirical": 94.20263600000001,
+    "exact": 94.41818786842717
+  },
+  "ks_limit_k1": {
+    "statistic": 0.007010646549774402,
+    "pvalue": 0.2779809321665383,
+    "mean_W_emp": 1.0090443619385012,
+    "mean_W_exact": 1.0
+  },
+  "ks_limit_k2": {
+    "statistic": 0.014612948469644817,
+    "pvalue": 0.0003864777092666758,
+    "mean_W_emp": 1.0033433926280064,
+    "mean_W_exact": 1.0
+  },
+  "mle_k1": {
+    "mean": 1.0086072780928395,
+    "sd": 0.1013431899346297,
+    "coverage95": 0.951
+  },
+  "mle_k2": {
+    "mean": 1.008140484351975,
+    "sd": 0.10143655146442344,
+    "coverage95": 0.9505
+  },
+  "leaf_fraction_k1": {
+    "largest_size": 20000,
+    "empirical": 0.4996074999999999,
+    "heuristic": 0.5
+  },
+  "leaf_fraction_k2": {
+    "largest_size": 20000,
+    "empirical": 0.6659607980399019,
+    "heuristic": 0.6666666666666666
+  },
+  "mean_depth_k1": {
+    "nodes": 20001,
+    "mean_depth": 9.480760961951903,
+    "log_nodes": 9.90353755128617
+  },
+  "mean_depth_k2": {
+    "nodes": 20001,
+    "mean_depth": 9.064396780160992,
+    "log_nodes": 9.90353755128617
+  },
+  "runtime_seconds": 8.1
+}
