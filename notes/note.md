@@ -40,11 +40,19 @@ If the path is observed until $n$ births with holding times $\tau_i$ in states $
 
 Conditionally on the jump chain, the parent of each birth is uniform among the individuals alive, and $k$ children are attached. For $k=1$ this is the random recursive tree; for $k=2$ every attachment adds a pair of sibling leaves. A one-line heuristic gives the leaf fraction: with $L$ leaves among $m$ nodes, $\mathbb E[\Delta L]=k-L/m$, so $L/m\to k/(k+1)$: $1/2$ classically, $2/3$ for twins. Simulation with $20\,000$ nodes gives $0.500$ and $0.666$ (Fig. 5). The out-degree distribution is supported on multiples of $k$ and decays geometrically; the mean depth of a uniform node stays of order $\log m$ ($9.48$ vs $9.06$ at $m=20\,001$; $\ln m=9.90$), with a smaller constant for twins.
 
-## 6. Questions I would like to work on in Neuchâtel
+## 6. The embedded Pólya urn: from the uniform to the arcsine law
+
+Start the process from two founders and let $Z^{(1)},Z^{(2)}$ be their (independent) descendances. Conditionally on the jump chain, each birth goes to founder $i$ with probability $Z^{(i)}/(Z^{(1)}+Z^{(2)})$ and adds $k$ to that descendance. Seen at birth times this is a **Pólya urn with reinforcement $k$**: draw a ball, return it with $k$ more of its colour, starting from one ball of each colour. The classical urn theorem gives that the fraction of colour 1 converges a.s. to $\mathrm{Beta}(1/k,1/k)$ (Pitman 2006, Ch. 3): the uniform law for $k=1$ and the **arcsine law** $\mathrm{Beta}(\tfrac12,\tfrac12)$ for twins.
+
+This is consistent with Section 3 by an independent route: the limit fraction equals $W_1/(W_1+W_2)$ with $W_i$ i.i.d. $\mathrm{Gamma}(1/k,\text{scale }k)$, and the ratio of two independent $\mathrm{Gamma}(1/k)$ variables is $\mathrm{Beta}(1/k,1/k)$. Two ways of computing the same object agree, which is the kind of check I like to build in. The qualitative content: with twins, two founding lineages tend to end up **unbalanced** (mass near $0$ and $1$), whereas classically every split is equally likely.
+
+**Numerical check (Fig. 6).** 20 000 urns with 2 000 draws and 20 000 two-founder simulations at $k\lambda t=8$: for $k=2$, Kolmogorov–Smirnov statistics against $\mathrm{Beta}(\tfrac12,\tfrac12)$ of $0.010$ and $0.005$; variance $0.1248$ (exact $1/8$).
+
+## 7. Questions I would like to work on in Neuchâtel
 
 1. Make the leaf-fraction heuristic a theorem (martingale + concentration, as for the RRT), and obtain the full degree distribution of the twin tree.
 2. The depth profile: identify the constant in $\mathbb E[\text{depth}]\sim c_k\log m$ and the CLT for the height, comparing with the RRT results in Mahmoud (1992).
-3. The connection with urns and permutations: which Pólya-urn and which random-permutation model does the twin process correspond to, and how do Simon's (1955) skew distributions change when arrivals come in pairs?
+3. Beyond two founders: the $m$-founder split is Dirichlet$(1/k,\dots,1/k)$; what is the analogue of the Chinese-restaurant / random-permutation construction of the RRT, and how do Simon's (1955) skew distributions change when arrivals come in pairs?
 4. Ages and sizes of subtrees "trees within trees" (Lambert 2025) when each split produces twins.
 
 ## References

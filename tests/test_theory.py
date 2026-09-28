@@ -61,3 +61,13 @@ def test_leaf_fraction_heuristic():
     for k, target in [(1, 0.5), (2, 2 / 3)]:
         lf = np.mean([trees.leaf_fraction(trees.grow_tree(5000, k, rng)) for _ in range(10)])
         assert abs(lf - target) < 0.01
+
+
+def test_urn_limit_is_arcsine_for_twins():
+    from yule_twins import urn
+    rng = np.random.default_rng(5)
+    f = urn.urn_fraction(2, 1000, 10000, rng)
+    law = urn.limit_fraction_law(2)  # Beta(1/2,1/2): mean 1/2, var 1/8
+    assert abs(f.mean() - 0.5) < 0.02
+    assert abs(f.var() - law.var()) < 0.01
+    assert stats.kstest(f, law.cdf).statistic < 0.03

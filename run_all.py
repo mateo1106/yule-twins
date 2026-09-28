@@ -175,3 +175,30 @@ summary["runtime_seconds"] = round(time.time() - t0, 1)
 with open("figures/summary.json", "w") as f:
     json.dump(summary, f, indent=2)
 print(json.dumps(summary, indent=2))
+
+# ----------------------------------------------------------------------
+# Figure 6: Pólya-urn correspondence — two founders, fraction of colour 1
+# ----------------------------------------------------------------------
+from yule_twins import urn  # noqa: E402
+rng6 = np.random.default_rng(SEED + 6)
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.4))
+x = np.linspace(0.005, 0.995, 400)
+for ax, k, col in [(axes[0], 1, C_YULE), (axes[1], 2, C_TWIN)]:
+    f_urn = urn.urn_fraction(k, 2000, 20_000, rng6)
+    f_two = urn.two_founders_fraction(LAM, k, 8.0 / k, 20_000, rng6)
+    ax.hist(f_urn, bins=40, range=(0, 1), density=True, color=col, alpha=0.4,
+            label=f"Pólya urn, reinforcement {k}, 2000 draws")
+    ax.hist(f_two, bins=40, range=(0, 1), density=True, histtype="step", color="k", lw=1.2,
+            label=r"two founders: $Z^{(1)}_t/(Z^{(1)}_t+Z^{(2)}_t)$")
+    law = urn.limit_fraction_law(k)
+    ax.plot(x, law.pdf(x), color=col, lw=1.8, label=("Uniform(0,1)" if k == 1 else r"arcsine law Beta($\frac{1}{2},\frac{1}{2}$)"))
+    ax.set_ylim(0, 1.6 if k == 1 else 3.2); ax.set_xlabel("fraction descending from founder 1"); ax.set_ylabel("density")
+    ax.set_title("Classical Yule ($k=1$)" if k == 1 else "Twin births ($k=2$)"); ax.legend(frameon=False, fontsize=7.5)
+    summary[f"urn_k{k}"] = {"ks_urn_vs_beta": float(stats.kstest(f_urn, law.cdf).statistic),
+                            "ks_two_founders_vs_beta": float(stats.kstest(f_two, law.cdf).statistic),
+                            "mean": float(f_urn.mean()), "var_urn": float(f_urn.var()), "var_beta": float(law.var())}
+fig.suptitle(r"The embedded urn has reinforcement $k$: the split between two founders goes from Uniform to arcsine", y=1.02)
+fig.savefig("figures/fig6_polya_urn.png"); plt.close(fig)
+with open("figures/summary.json", "w") as f:
+    json.dump(summary, f, indent=2)
+print(json.dumps({k: v for k, v in summary.items() if k.startswith("urn")}, indent=2))
